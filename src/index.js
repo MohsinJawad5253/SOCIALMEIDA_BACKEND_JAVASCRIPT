@@ -2,20 +2,26 @@ import dotenv from "dotenv"
 dotenv.config({
     path :"./.env"
 })
-import express from "express"
+import {app} from "./app.js"
+import connectDB from "./db/db.js"
 
-const app = express()
-
-app.post("/", async(req,res) => {
-
-    res.status(201).json({
-        message : "OK"
-            })
+connectDB()
+.then(() => {
+    app.listen(process.env.PORT || 5001 , () => {
+        console.log(` \n app is listening on port ${process.env.PORT || 5001}`)
+    })
+})
+.catch((err) => {
+    console.log("database connection failed",err);
+    
 })
 
-app.listen(process.env.PORT,() => {
-    console.log(`Server is listening on PORT: ${process.env.PORT}`)
-})
 
 
-export default app
+
+
+
+
+
+
+
